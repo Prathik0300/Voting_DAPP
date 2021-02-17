@@ -1,0 +1,133 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.bg{
+  animation: slide 3s ease-in-out 0s infinite alternate;
+  background-image: linear-gradient(-60deg,#AA076B 50%,#61045F 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: .5;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.bg1{
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.bg2{
+  animation-duration: 5s;
+}
+
+@keyframes slide{
+  0%{
+    transform: translateX(-25%);
+  }
+  100%{
+    transform: translateX(25%);
+  }
+}
+
+/*****************Voter Sign Up Page***************/
+#SignUpRow1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 26%;
+  width: 50%;
+}
+
+#VoterSignUpCard{
+  height: 100%;
+  width: 100%;
+}
+
+#VoterSignUpCardBody{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ModalRow{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Full width */
+  height: 100%;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 16rem;
+  width: 60%; /* Full width */
+  height: 60%; /* Full height */
+  animation: slideIn 0.5s ease-in-out 0s forwards;
+  overflow: auto; /* Enable scroll if needed */
+  
+}
+
+@keyframes slideIn{
+  0%{
+    top: -2rem;
+    opacity: 0;
+  }
+  100%{
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+@media(max-width:990px){
+
+  #SignUpRow1{
+    width: 80%;
+    margin-left: 10%;
+  }
+
+  .modal{
+    left: 0;
+    right: None;
+    width: 100%;
+    height: 100%;
+  }
+@media(max-width:790px){
+
+  #SignUpRow1{
+    width: 100%;
+    margin-left: 0;
+  }
+}
