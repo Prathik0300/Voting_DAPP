@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VOTER LOGIN</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="bg bg1"></div>
+    <div class="bg bg2"></div>
+    <div class="container">
+        <div id="AvailableCandidateRow" class="row">
+            <div class="card">
+                <div class="card-title text-center pt-4">
+                    AVAILABLE CANDIDATES
+                </div>
+                <div class="card-body" id="DisplayCandidates">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./javascripts/jquery-3.5.0.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <script src="./javascripts/web3.min.js"></script>
+    <script>
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(window.ethereum);
+         } else {
+            web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+          }
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var abi = [
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "candidate",
+                    "type": "string"
+                }
+            ],
+            "name": "AddCandidates",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "choice",
+                    "type": "string"
+                }
+            ],
+            "name": "CastVote",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_password",
+                    "type": "string"
+                },
+                {
+                    "name": "_age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_district",
+                    "type": "string"
+                }
+            ],
+            "name": "CreateOwner",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_password",
+                    "type": "string"
+                },
+                {
+                    "name": "_age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_district",
+                    "type": "string"
+                }
+            ],
+            "name": "CreateVoter",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "voterID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "indexed": false,
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "name": "VoterCreated",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "ownerID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "indexed": false,
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "name": "OwnerCreated",
+            "type": "event"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "CandidateIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Candidates",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "CandidateVote",
+            "outputs": [
+                {
+                    "name": "candidateName",
+                    "type": "string"
+                },
+                {
+                    "name": "TotalVotes",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "DisplayAllVotes",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                },
+                {
+                    "name": "",
+                    "type": "uint256[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidates",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getDataOwner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getDataVoter",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "GetWinner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "IndividualVote",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isValidOwner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isValidVoter",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ownerID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "owners",
+            "outputs": [
+                {
+                    "name": "ownerID",
+                    "type": "uint256"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ValidOwnerID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ValidVoterID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "voterID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "voters",
+            "outputs": [
+                {
+                    "name": "voterID",
+                    "type": "uint256"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+        var contractAddress = "0x71C566d1e12869Ec3E895EFc8676b6297D253547";
+        var contract = web3.eth.contract(abi).at(contractAddress);
+        var CandidateDiv = document.getElementById('DisplayCandidates');
+        var candidates = [];
+        candidates = contract.getCandidates();
+        for(var i=0;i<candidates.length;i++){
+            if(candidates[i].length<1){
+                continue;
+            }
+            var NewDiv = document.createElement('div');
+            var input = document.createElement('INPUT')
+            input.type = 'radio';
+            input.value = candidates[i];
+            input.id = candidates[i];
+            var label = document.createElement('label')
+            label.htmlFor = candidates[i];
+            var description = document.createTextNode(candidates[i]);
+            label.appendChild(description);
+            NewDiv.appendChild(input);
+            NewDiv.appendChild(label);
+            CandidateDiv.appendChild(NewDiv);
+        }
+    </script>
+</body>
+</html>
