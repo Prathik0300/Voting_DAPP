@@ -12,22 +12,59 @@
     <div class="bg bg1"></div>
     <div class="bg bg2"></div>
     <div class="container">
+        <div id="SignOutRow" class="row">
+            <button type="button" class="btn btn-primary" onclick="location.replace('index.html')">SIGN OUT</button>
+        </div>
+    </div>
+    <div class="container">
         <div id="AvailableCandidateRow" class="row">
-            <div class="card">
+            <div class="card" id="CandidateCard">
                 <div class="card-title text-center pt-4">
-                    AVAILABLE CANDIDATES
+                    <h4>AVAILABLE CANDIDATES</h4>
                 </div>
                 <div class="card-body" id="DisplayCandidates">
+                    <form id="DisplayCandidatesForm" role="form">
+                        <div id="ToDisplay">
 
+                        </div>
+                        <div class="form-group" id="submit" style="display: none;">
+                            <button class="btn btn-primary form-control">VOTE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </>
+    </div>
+
+    <div class="container">
+        <div class="row" id="ModalRow">
+            <div class="modal" id="SuccessModal">
+                <div class="modal-content">
+                    <span id="close1" class="close" style="float: right; position:absolute; right:1rem; top:10px;">&times;</span>
+                    <p class="mt-4" style="font-size: 1rem;"><b>Successfully Voted</b></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="container">
+        <div class="row" id="ModalRow">
+            <div class="modal" id="FailureModal">
+                <div class="modal-content">
+                    <span id="close2" class="close" style="float: right; position:absolute; right:1rem; top:10px;">&times;</span>
+                    <p class="mt-4" style="font-size: 1rem;"><b>Already Voted</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="./javascripts/jquery-3.5.0.min.js"></script>
     <script src="./javascripts/bootstrap.min.js"></script>
     <script src="./javascripts/web3.min.js"></script>
+    <script src="./javascripts/sessions.js"></script>
     <script>
+        show();
         if (typeof web3 !== 'undefined') {
             web3 = new Web3(window.ethereum);
          } else {
@@ -333,6 +370,20 @@
         },
         {
             "constant": true,
+            "inputs": [],
+            "name": "getTest",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
             "inputs": [
                 {
                     "name": "id",
@@ -463,6 +514,67 @@
             "constant": true,
             "inputs": [
                 {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "test",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "test1",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "test2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "test3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
                     "name": "_id",
                     "type": "uint256"
                 }
@@ -556,19 +668,21 @@
             "type": "function"
         }
     ];
-        var contractAddress = "0x71C566d1e12869Ec3E895EFc8676b6297D253547";
+        var contractAddress = "0x490126eBC0288C841Ce778099CFa3123a1B211B0";
         var contract = web3.eth.contract(abi).at(contractAddress);
-        var CandidateDiv = document.getElementById('DisplayCandidates');
+        var CandidateDiv = document.getElementById('ToDisplay');
         var candidates = [];
         candidates = contract.getCandidates();
+        var CandidateCount = 0;
         for(var i=0;i<candidates.length;i++){
             if(candidates[i].length<1){
                 continue;
             }
             var NewDiv = document.createElement('div');
-            var input = document.createElement('INPUT')
+            var input = document.createElement('INPUT');
             input.type = 'radio';
             input.value = candidates[i];
+            input.setAttribute("onclick","RemoveSelection(this)");
             input.id = candidates[i];
             var label = document.createElement('label')
             label.htmlFor = candidates[i];
@@ -577,6 +691,76 @@
             NewDiv.appendChild(input);
             NewDiv.appendChild(label);
             CandidateDiv.appendChild(NewDiv);
+            CandidateCount+=1;
+        }
+        if(CandidateCount>0){
+            var submit = document.getElementById("submit");
+            submit.style.display = "";
+            CandidateCount=0;
+        }
+        else{
+            submit.style.display = "None";
+        }
+        
+        $('form').on('submit',function(event){
+            event.preventDefault();
+            key = parseInt(sessionStorage.getItem("ID"));
+            var value = "";
+            var AllCandidates = document.getElementsByTagName('input');
+            for(var i=0;i<AllCandidates.length;i++){
+                if(AllCandidates[i].type==="radio" && AllCandidates[i].checked){
+                    value = AllCandidates[i].value;
+                    break;
+                }
+            }
+            if(value.length>0){
+                if(contract.CastVote(key,value,{from: web3.eth.defaultAccount, gas:3000000})===true){
+                    console.log("VOTED");
+                    console.log(key);
+                    console.log(value);
+                    console.log(contract.getTest());
+                    var modal = document.getElementById("SuccessModal");
+                    var close = document.getElementById("close1");
+                    ShowModal(modal,close);
+                    
+                }
+                else{
+                    console.log("ALREADY VOTED");
+                    console.log(key);
+                    console.log(value);
+                    console.log(contract.getTest());
+                    var modal = document.getElementById("FailureModal");
+                    var close = document.getElementById("close2");
+                    ShowModal(modal,close);
+                }
+            }            
+        });
+
+        function RemoveSelection(that){
+            
+            var AllCandidates = document.getElementsByTagName('input');
+            for(var i=0;i<AllCandidates.length;i++){
+                if(AllCandidates[i].checked==true && AllCandidates[i].id!=that.id){
+                    AllCandidates[i].checked=false;
+                }
+            }
+        }
+
+        function ShowModal(modal,span){
+            // Get the <span> element that closes the modal
+            modal.style.display = "block";
+
+                // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+                // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+
         }
     </script>
 </body>
