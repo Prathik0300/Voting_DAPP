@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>VOTER LOGIN</title>
+    <title>OWNER LOGIN</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,14 +16,14 @@
         <div id="SignUpRow1" class="row">
             <div id="VoterSignUpCard" class="card">
                 <div class="text-center card-title pt-4">
-                    <h4>VOTER SIGN IN</h4>
+                    <h4>OWNER SIGN IN</h4>
                 </div>
                 <div id="VoterSignUpCardBody" class="card-body">
                     <form role="form">
                         <div class="form-row py-3">
                             <div class="form-group">
                                 <label for="ownerID">Owner ID</label>
-                                <input name="VoterID" class="form-control" type="text" placeholder="Owner ID" id="ownerID" size="100" autofocus required>
+                                <input name="OwnerID" class="form-control" type="text" placeholder="Owner ID" id="ownerID" size="100" autofocus required>
                             </div>
                         </div>
                         <div class="form-row pb-3">
@@ -40,5 +40,18 @@
             </div>
         </div>
     </div>
+
+    <script src="./javascripts/jquery-3.5.0.min.js"></script>
+    <script src="./javascripts/sessions.js"></script>
+    <script>
+    $('form').on('submit',function(event){
+        event.preventDefault();
+        key = "OwnerID";
+        value = parseInt(document.getElementById("ownerID").value);
+        set(key,value);
+        show();
+        location.href = "OwnerFunctions.html";
+    });
+    </script>
 </body>
 </html>

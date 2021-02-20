@@ -9,7 +9,6 @@ function set(key,value){
       }
 }
 
-
 function show(){
     console.log(sessionStorage);
 }
