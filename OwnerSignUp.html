@@ -1,3 +1,25 @@
+<!-- <?php
+
+require_once "PDO.php";
+if(isset($_POST['OwnerID']) && isset($_POST['Name']) && isset($_POST['Password']) && isset($_POST['Age']) && isset($_POST['District'])){
+    $salt='AbCdEfG102938';
+    $sql="INSERT INTO owners(OwnerID,Password,Name,Age,District) VALUES (:id,:password,:name,:age,:district)";
+    $check = hash("md5",$salt.$_POST['Password']);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array(
+        ':id'=>$_POST['OwnerID'],
+        ':password'=>$check,
+        ':name'=>$_POST['Name'],
+        ':age'=>$_POST['Age'],
+        ':district'=>$_POST['District'],
+    ));
+    header("Location: index.php");
+    return;
+}
+
+?> -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,107 +121,28 @@
                     "type": "uint256"
                 },
                 {
-                    "name": "_name",
-                    "type": "string"
-                },
-                {
-                    "name": "_password",
-                    "type": "string"
-                },
-                {
-                    "name": "_age",
-                    "type": "uint256"
-                },
-                {
-                    "name": "_district",
+                    "name": "candidate",
                     "type": "string"
                 }
             ],
-            "name": "CreateVoter",
+            "name": "AddCandidates",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
         },
         {
-            "constant": true,
+            "constant": false,
             "inputs": [
                 {
-                    "name": "",
+                    "name": "id",
                     "type": "uint256"
                 }
             ],
-            "name": "owners",
-            "outputs": [
-                {
-                    "name": "ownerID",
-                    "type": "uint256"
-                },
-                {
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "name": "password",
-                    "type": "bytes"
-                },
-                {
-                    "name": "age",
-                    "type": "uint256"
-                },
-                {
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "name": "district",
-                    "type": "string"
-                }
-            ],
+            "name": "AvailableCandidates",
+            "outputs": [],
             "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getVotedNames",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string[]"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "isValidOwner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getCandidates",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string[]"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -215,291 +158,9 @@
                 }
             ],
             "name": "CastVote",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getVotes",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256[]"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getDataVoter",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "CandidateIndex",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "Candidates",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "FinalWinner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "_id",
-                    "type": "uint256"
-                }
-            ],
-            "name": "ValidOwnerID",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "names",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "_id",
-                    "type": "uint256"
-                }
-            ],
-            "name": "ValidVoterID",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "voterID",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "votes",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "id",
-                    "type": "uint256"
-                }
-            ],
-            "name": "DisplayAllVotes",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "_id",
-                    "type": "uint256"
-                },
-                {
-                    "name": "candidate",
-                    "type": "string"
-                }
-            ],
-            "name": "AddCandidates",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "IndividualVote",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getCandidateIndex",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getWinner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "GetCandidates",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string[]"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "isValidVoter",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -533,131 +194,33 @@
             "type": "function"
         },
         {
-            "constant": true,
+            "constant": false,
             "inputs": [
                 {
-                    "name": "id",
+                    "name": "_id",
                     "type": "uint256"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_password",
+                    "type": "string"
+                },
+                {
+                    "name": "_age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_district",
+                    "type": "string"
                 }
             ],
-            "name": "Winner",
+            "name": "CreateVoter",
             "outputs": [],
             "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "CandidateVote",
-            "outputs": [
-                {
-                    "name": "candidateName",
-                    "type": "string"
-                },
-                {
-                    "name": "TotalVotes",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "voters",
-            "outputs": [
-                {
-                    "name": "voterID",
-                    "type": "uint256"
-                },
-                {
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "name": "password",
-                    "type": "bytes"
-                },
-                {
-                    "name": "age",
-                    "type": "uint256"
-                },
-                {
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "name": "district",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "ownerID",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "MaxVotes",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "Names",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -668,38 +231,24 @@
                     "type": "uint256"
                 }
             ],
-            "name": "AvailableCandidates",
+            "name": "DisplayAllVotes",
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
         },
         {
-            "constant": true,
-            "inputs": [],
-            "name": "getMaxVotes",
-            "outputs": [
+            "constant": false,
+            "inputs": [
                 {
-                    "name": "",
+                    "name": "id",
                     "type": "uint256"
                 }
             ],
+            "name": "Winner",
+            "outputs": [],
             "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getDataOwner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -775,9 +324,505 @@
             ],
             "name": "OwnerCreated",
             "type": "event"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "CandidateIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Candidates",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "CandidateVote",
+            "outputs": [
+                {
+                    "name": "candidateName",
+                    "type": "string"
+                },
+                {
+                    "name": "TotalVotes",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "FinalWinner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidateIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidates",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "GetCandidates",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getDataOwner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getDataVoter",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getMaxVotes",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getVoteConfirmation",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getVotedNames",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getVotes",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getWinner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "IndividualVote",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isValidOwner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isValidVoter",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "MaxVotes",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "names",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Names",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ownerID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "owners",
+            "outputs": [
+                {
+                    "name": "ownerID",
+                    "type": "uint256"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ValidOwnerID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ValidVoterID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "VoteConfirmation",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "voterID",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "voters",
+            "outputs": [
+                {
+                    "name": "voterID",
+                    "type": "uint256"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "bytes"
+                },
+                {
+                    "name": "age",
+                    "type": "uint256"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "district",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "votes",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
         }
     ];
-        var contractAddress = "0x098F8f2b2F28274583142544118459857f3a8e68";
+        var contractAddress = "0xc066bc5c3A53a89d035aFA9b649CfA1CDa9F017C";
 
         var contract = web3.eth.contract(abi).at(contractAddress);
                 
