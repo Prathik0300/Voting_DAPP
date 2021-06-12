@@ -1,6 +1,6 @@
 # Voting DAPP
 
-This is a Fully Decentralised Voting Web Application. 
+This is a Fully Decentralised Voting Web Application. I have used Remix IDE to compile the solidity smart contracts.
 
 ## Languages Used
 
@@ -27,11 +27,13 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 
 ## Steps To run this project in your local machine
 
-#### 1) Run the following command in git bash
+### 1) Run the following command in git bash
 
-### `git clone https://github.com/Prathik0300/Voting_DAPP.git`
+`git clone https://github.com/Prathik0300/Voting_DAPP.git`
 
-#### 2) cd into your project directory
+### 2) cd into your project directory
+
+### 3) 
 
 
 
