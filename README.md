@@ -18,7 +18,7 @@ Ganache is a personal Ethereum Blockchain used to test smart contracts where you
 You can download Ganache in your system through this [link](https://www.trufflesuite.com/ganache).
 
 
-### `Set up Metamask account` 
+### `Metamask` 
 
 Metamask is a cryptocurrency wallet than interacts with the Ethereum blockchain. It is available as a browser extension.
 
@@ -27,11 +27,11 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 
 ## Steps To run this project in your local machine
 
-### 1) Run the following command in git bash
+#### 1) Run the following command in git bash
 
 ### `git clone https://github.com/Prathik0300/Voting_DAPP.git`
 
-### 2) cd into your project directory
+#### 2) cd into your project directory
 
 
 
