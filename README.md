@@ -2,14 +2,14 @@
 
 This is a Fully Decentralised Voting Web Application. 
 
-# Languages Used
+## Languages Used
 
 1) HTML
 2) CSS
 3) JAVASCRIPT
 4) SOLIDITY
 
-# Requirements
+## Requirements
 
 ### `Ganache`
 
@@ -25,13 +25,13 @@ Metamask is a cryptocurrency wallet than interacts with the Ethereum blockchain.
 Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) to add Metamask Plugin in your chrome browser
 
 
-# Steps To run this project in your local machine
+## Steps To run this project in your local machine
 
-## 1) Run the following command in git bash
+### 1) Run the following command in git bash
 
 ### `git clone https://github.com/Prathik0300/Voting_DAPP.git`
 
-## 2) cd into your project directory
+### 2) cd into your project directory
 
 
 
