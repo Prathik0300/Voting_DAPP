@@ -19,4 +19,4 @@ or
 
 run this command in git bash
 
-### git clone https://github.com/Prathik0300/Voting_DAPP.git
+### `git clone https://github.com/Prathik0300/Voting_DAPP.git`
