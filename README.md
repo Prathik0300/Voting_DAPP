@@ -37,6 +37,9 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 
 ### 4) start a new project in Ganache and copy the RPC Server
 
+`HTTP://127.0.0.1:7545`
+
+
 ### 5) Connect Metamask with the RPC Server.
 
 ### 6) Connect the RPC server in Remix IDE.
