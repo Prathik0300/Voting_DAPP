@@ -33,7 +33,19 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 
 ### 2) cd into your project directory
 
-### 3) 
+### 3) Copy the code in Voting.sol file in SolFiles directory and paste it in Remix IDE
+
+### 4) start a new project in Ganache and copy the RPC Server
+
+### 5) Connect Metamask with the RPC Server.
+
+### 6) Connect the RPC server in Remix IDE.
+
+### 7) Compile the smart contract in Remix IDE and copy the contract address and abi
+
+### 8) Paste the contract address and abi in js code in HTML
+
+
 
 
 
