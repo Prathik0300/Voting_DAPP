@@ -1,6 +1,6 @@
 # Voting DAPP
 
-This is a Fully Decentralised Voting Web Application. I have used Remix IDE to compile the solidity smart contracts.
+This is a Fully Decentralised Voting Web Application. I used Remix IDE to compile the solidity smart contracts.
 
 ## Languages Used
 
@@ -37,7 +37,7 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 
 ### 4) start a new project in Ganache and copy the RPC Server
 
-`HTTP://127.0.0.1:7545`
+It will be something like this : `HTTP://127.0.0.1:7545`
 
 
 ### 5) Connect Metamask with the RPC Server.
@@ -47,11 +47,5 @@ Use this [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaea
 ### 7) Compile the smart contract in Remix IDE and copy the contract address and abi
 
 ### 8) Paste the contract address and abi in js code in HTML
-
-
-
-
-
-
 
 
